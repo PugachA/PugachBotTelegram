@@ -98,18 +98,19 @@ namespace PugachBotTelegram
 
 
             telegramBotClient.StartReceiving();//Начинаем получать обновления
-            ConsoleKeyInfo cki;
-            do
-            {
-                string str = Console.ReadLine();
-                var word = str.Split(':');
-                telegramBotClient.SendTextMessageAsync(
-                               word[0],
-                               word[1]
-                               );
-                cki = Console.ReadKey();
-            }
-            while (cki.Key != ConsoleKey.Escape);
+            //ConsoleKeyInfo cki;
+            //do
+            //{
+            //    string str = Console.ReadLine();
+            //    var word = str.Split(':');
+            //    telegramBotClient.SendTextMessageAsync(
+            //                   word[0],
+            //                   word[1]
+            //                   );
+            //    cki = Console.ReadKey();
+            //}
+            //while (cki.Key != ConsoleKey.Escape);
+            Console.ReadKey();
 
 
         }
@@ -129,12 +130,12 @@ namespace PugachBotTelegram
             }
             else
             {
-
-                await telegramBotClient.SendTextMessageAsync(
+                string mes = GetTemperature(message.Text);
+                    await telegramBotClient.SendTextMessageAsync(
                     message.Chat.Id,
-                    GetTemperature(message.Text)
+                    mes
                     );
-                logger.Info($"Отправляем ответ {message.MessageId}: {GetTemperature(message.Text)} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
+                logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
         }
     }
