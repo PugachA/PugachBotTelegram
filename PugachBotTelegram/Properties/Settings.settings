@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PugachBotTelegram.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="OpenweathermapAppId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">KItyaSx1Cl4gZBh9+07AkarRbkttq16EfNNYgSLBGlNTYht+L9wHbzDH7EGqOCzkUNi9xqGcLZAWgIb8ixjraFkOLpAJiJUPeM+zpqHrJUY=</Value>
+    </Setting>
+    <Setting Name="TelegramToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ix6LTEenYBc5oMPvBTz1kYdnXdsnBVdxiyg1IsFmJvAdEPDiMvDGQPr/rtXkf4Ms1RycM9pV8Lr2WHHdrgFAzlAZMGzRmjVaqX3kvi6k2AAkLbqeMT/AmNMNa57RG4SJ</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

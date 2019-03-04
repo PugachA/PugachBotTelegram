@@ -1,23 +1,24 @@
-﻿using MihaZupan;
+﻿using CryptographyLib;
+using MihaZupan;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+
 
 namespace PugachBotTelegram
 {
     class Program
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         static HttpClient httpClient = new HttpClient(); // httpClient позволяет делать запросы к интернет-ресурсам
 
         /// <summary>
         /// http://api.openweathermap.org/
+        /// Для проверки полученных сообщений https://api.telegram.org/bot749326751:AAFW67Hm4XkKENl2RVf7OQJEe22e828XDpk/getUpdates
         /// </summary>
         /// <param name="Title"></param>
         /// <returns></returns>
@@ -25,7 +26,9 @@ namespace PugachBotTelegram
         {
             try
             {
-                string url = $"http://api.openweathermap.org/data/2.5/weather?q={Title}&units=metric&appid=f045766916db5de3e8a6a1dbd6187125";
+                //Pacшифровываем appid для openweathermap
+                string appId = Protector.Decrypt(Properties.Settings.Default.OpenweathermapAppId);
+                string url = $"http://api.openweathermap.org/data/2.5/weather?q={Title}&units=metric&appid={appId}";
                 string data = httpClient.GetStringAsync(url).Result;
                 dynamic r = JObject.Parse(data);
                 return $"{r.main.temp}°c";
@@ -38,10 +41,11 @@ namespace PugachBotTelegram
 
         static void Main(string[] args)
         {
-            string token = "749326751:AAFW67Hm4XkKENl2RVf7OQJEe22e828XDpk";
+            string token = Protector.Decrypt(Properties.Settings.Default.TelegramToken);
             // Секретный токен бота
 
-            var proxy = new HttpToSocks5Proxy("94.130.1.45", 1080);
+            //Рабочий прокси можно найти на http://spys.one/proxys/DE/
+            var proxy = new HttpToSocks5Proxy("188.40.22.206", 1080);
 
             // Some proxies limit target connections to a single IP address
             // If that is the case you have to resolve hostnames locally
@@ -64,7 +68,8 @@ namespace PugachBotTelegram
 
                         case Telegram.Bot.Types.Enums.MessageType.Sticker:
                             {
-                                Console.WriteLine($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName}: Отправил стикер {e.Message.Sticker.SetName}");
+                                logger.Info($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id},{e.Message.MessageId}): Отправил стикер {e.Message.Sticker.SetName}");
+                                Console.WriteLine($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id}): Отправил стикер {e.Message.Sticker.SetName}");
                                 Message msg;
                                 using (var stream = System.IO.File.OpenRead(@"D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg"))
                                 {
@@ -72,17 +77,18 @@ namespace PugachBotTelegram
                                       chatId: e.Message.Chat,
                                       photo: stream
                                     );
+                                    logger.Info($@"Отправляем фото {e.Message.MessageId}: D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg - {e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id})");
                                 }
+
                                 break;
                             }
 
                         default:
                             {
-                                Console.WriteLine(e.Message.Text);
-                                await telegramBotClient.SendTextMessageAsync(
-                               e.Message.Chat.Id,
-                               "Я не в курсе"
-                               );
+                                logger.Info($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id},{e.Message.MessageId}): {e.Message.Text}");
+                                Console.WriteLine($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id}): {e.Message.Text}");
+                                await telegramBotClient.SendTextMessageAsync(e.Message.Chat.Id,"Я не в курсе");
+                                logger.Info($"Отправляем ответ {e.Message.MessageId}: {e.Message.Text} - {e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id})");
                                 break;
                             }
                     }
@@ -92,13 +98,26 @@ namespace PugachBotTelegram
 
 
             telegramBotClient.StartReceiving();//Начинаем получать обновления
-            Console.ReadKey();
+            ConsoleKeyInfo cki;
+            do
+            {
+                string str = Console.ReadLine();
+                var word = str.Split(':');
+                telegramBotClient.SendTextMessageAsync(
+                               word[0],
+                               word[1]
+                               );
+                cki = Console.ReadKey();
+            }
+            while (cki.Key != ConsoleKey.Escape);
+
 
         }
 
         private static async void ProcessingTextMessageAsync(Message message, TelegramBotClient telegramBotClient)
         {
-            Console.WriteLine($"{message.Chat.FirstName} {message.Chat.LastName}: {message.Text}");
+            logger.Info($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
+            Console.WriteLine($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
             if (message.Text == "/start")
             {
                 string mes = "Привет. Это PugachBot. Ты можешь написать мне любой город, и я отправлю тебе погодную информацию в этом городе. Также мне можно попробовать отправить стикер или просто пообщаться";
@@ -106,13 +125,17 @@ namespace PugachBotTelegram
                 message.Chat.Id,
                 mes
                 );
+                logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
             else
+            {
 
                 await telegramBotClient.SendTextMessageAsync(
                     message.Chat.Id,
                     GetTemperature(message.Text)
                     );
+                logger.Info($"Отправляем ответ {message.MessageId}: {GetTemperature(message.Text)} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
+            }
         }
     }
 }
