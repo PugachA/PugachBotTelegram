@@ -111,5 +111,11 @@ namespace PugachBotTelegram
             }
         }
 
+        public void SendTextFromConsole(string chatId, string text)
+        {
+            telegramBotClient.SendTextMessageAsync(chatId, text);
+            logger.Info($"Отправляем через консоль {chatId}: {text}");
+        }
+
     }
 }
