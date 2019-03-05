@@ -15,7 +15,6 @@ namespace PugachBotTelegram
 
         /// <summary>
         /// http://api.openweathermap.org/
-        /// Для проверки полученных сообщений https://api.telegram.org/bot749326751:AAFW67Hm4XkKENl2RVf7OQJEe22e828XDpk/getUpdates
         /// </summary>
         /// <param name="Title"></param>
         /// <returns></returns>

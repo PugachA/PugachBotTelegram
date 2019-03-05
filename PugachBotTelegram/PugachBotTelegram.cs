@@ -13,14 +13,18 @@ using Telegram.Bot.Types;
 namespace PugachBotTelegram
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
+    // Для проверки полученных сообщений https://api.telegram.org/bot749326751:AAFW67Hm4XkKENl2RVf7OQJEe22e828XDpk/getUpdates
     class PugachBotTelegram
     {
         private readonly string token;
         private static Logger logger;
 
         public HttpToSocks5Proxy proxy;
+        /// <summary>
+        /// Клиент для Telegram Bot API https://telegrambots.github.io/book/index.html
+        /// </summary>
         public TelegramBotClient telegramBotClient;
         public User me;
 

@@ -19,8 +19,6 @@ namespace PugachBotTelegram
         {
             try
             {
-
-
                 //Рабочий прокси можно найти на http://spys.one/proxys/DE/
                 var proxy = new HttpToSocks5Proxy("188.40.22.206", 1080);
 
