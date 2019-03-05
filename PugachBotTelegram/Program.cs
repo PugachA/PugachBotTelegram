@@ -1,12 +1,7 @@
-﻿using CryptographyLib;
-using MihaZupan;
-using Newtonsoft.Json.Linq;
+﻿using MihaZupan;
 using NLog;
 using System;
-using System.Net.Http;
-using Telegram.Bot;
-using Telegram.Bot.Args;
-using Telegram.Bot.Types;
+
 
 
 namespace PugachBotTelegram
