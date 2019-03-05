@@ -35,7 +35,7 @@ namespace PugachBotTelegram
             }
             catch (Exception)
             {
-                return "ошибка запроса";
+                return "Ошибка запроса";
             }
         }
 
@@ -87,7 +87,7 @@ namespace PugachBotTelegram
                             {
                                 logger.Info($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id},{e.Message.MessageId}): {e.Message.Text}");
                                 Console.WriteLine($"{e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id}): {e.Message.Text}");
-                                await telegramBotClient.SendTextMessageAsync(e.Message.Chat.Id,"Я не в курсе");
+                                await telegramBotClient.SendTextMessageAsync(e.Message.Chat.Id, "Я не в курсе");
                                 logger.Info($"Отправляем ответ {e.Message.MessageId}: {e.Message.Text} - {e.Message.Chat.FirstName} {e.Message.Chat.LastName} ({e.Message.Chat.Id})");
                                 break;
                             }
@@ -98,18 +98,18 @@ namespace PugachBotTelegram
 
 
             telegramBotClient.StartReceiving();//Начинаем получать обновления
-            //ConsoleKeyInfo cki;
-            //do
-            //{
-            //    string str = Console.ReadLine();
-            //    var word = str.Split(':');
-            //    telegramBotClient.SendTextMessageAsync(
-            //                   word[0],
-            //                   word[1]
-            //                   );
-            //    cki = Console.ReadKey();
-            //}
-            //while (cki.Key != ConsoleKey.Escape);
+            ConsoleKeyInfo cki;
+            do
+            {
+                string str = Console.ReadLine();
+                var word = str.Split(':');
+                telegramBotClient.SendTextMessageAsync(
+                               word[0],
+                               word[1]
+                               );
+                cki = Console.ReadKey();
+            }
+            while (cki.Key != ConsoleKey.Escape);
             Console.ReadKey();
 
 
@@ -131,10 +131,10 @@ namespace PugachBotTelegram
             else
             {
                 string mes = GetTemperature(message.Text);
-                    await telegramBotClient.SendTextMessageAsync(
-                    message.Chat.Id,
-                    mes
-                    );
+                await telegramBotClient.SendTextMessageAsync(
+                message.Chat.Id,
+                mes
+                );
                 logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
         }
