@@ -55,10 +55,6 @@ namespace PugachBotTelegram
             {
                 logger.Error(ex.Message);
             }
-
-
         }
-
-
     }
 }
