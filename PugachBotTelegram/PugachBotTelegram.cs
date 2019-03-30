@@ -2,6 +2,7 @@
 using MihaZupan;
 using NLog;
 using System;
+using System.Collections.Generic;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -91,30 +92,77 @@ namespace PugachBotTelegram
         {
             logger.Info($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
             Console.WriteLine($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
+
             if (message.Text == "/start")
             {
-                string mes = "Привет. Это PugachBot. Ты можешь написать мне любой город, и я отправлю тебе погодную информацию в этом городе. Также мне можно попробовать отправить стикер или просто пообщаться";
+                string mes = "Привет. Это PugachBot.\r\n Ты можешь написать мне любой город в формате {Погода [город]} (Например: Погода Москва), и я отправлю тебе погодную информацию в этом городе.\r\n Также мне можно попробовать отправить стикер или просто пообщаться";
                 await telegramBotClient.SendTextMessageAsync(
                 message.Chat.Id,
                 mes
                 );
                 logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
-            else
+
+            if (message.Text.ToLower().Contains("погода"))
             {
-                string mes = OpenWeatherMap.GetTemperature(message.Text);
+                string city = message.Text.ToLower().Replace("погода", "").Trim();
+                string mes = OpenWeatherMap.GetTemperature(city);
                 await telegramBotClient.SendTextMessageAsync(
                 message.Chat.Id,
                 mes
                 );
                 logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
+
+            string mesGreeting = "";
+            if (IsGreeting(message.Text, out mesGreeting))
+            {
+
+                await telegramBotClient.SendTextMessageAsync(
+                message.Chat.Id,
+                mesGreeting
+                );
+                logger.Info($"Отправляем ответ {message.MessageId}: {mesGreeting} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
+            }
+        }
+
+        private bool IsGreeting(string text, out string mes)
+        {
+            bool flag = false;
+            FillGreetingsDic();
+            foreach (KeyValuePair<string, string> greeting in Greetings)
+            {
+                if (text.ToLower().Contains(greeting.Key))
+                {
+                    flag = true;
+                    mes = greeting.Value;
+                    return flag;
+                }
+            }
+            mes = "Нет ответа";
+            return flag;
         }
 
         public void SendTextFromConsole(string chatId, string text)
         {
             telegramBotClient.SendTextMessageAsync(chatId, text);
             logger.Info($"Отправляем через консоль {chatId}: {text}");
+        }
+
+        Dictionary<string, string> Greetings = new Dictionary<string, string>();
+
+        void FillGreetingsDic()
+        {
+            if (Greetings.Count == 0)
+            {
+                Greetings.Add("hello", "Hello");
+                Greetings.Add("привет", "Привет");
+                Greetings.Add("хай", "Хай");
+                Greetings.Add("добрый день", "И тебе доброго дня!");
+                Greetings.Add("добрый вечер", "Что-то ты поздно. Привет!");
+                Greetings.Add("доброе утро", "Доброе утро! Хорошего дня!");
+                Greetings.Add("здравствуй", "Здравствуйте!");
+            }
         }
 
     }

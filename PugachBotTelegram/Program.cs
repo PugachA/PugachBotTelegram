@@ -15,7 +15,7 @@ namespace PugachBotTelegram
             try
             {
                 //Рабочий прокси можно найти на http://spys.one/proxys/DE/
-                var proxy = new HttpToSocks5Proxy("188.40.22.206", 1080);
+                var proxy = new HttpToSocks5Proxy("35.227.157.59", 1080);
 
                 // Some proxies limit target connections to a single IP address
                 // If that is the case you have to resolve hostnames locally
