@@ -105,6 +105,7 @@ namespace PugachBotTelegram
 
             if (message.Text == "/start")
             {
+                mesType = "start";
                 string mes = "Привет. Это PugachBot.\r\n Ты можешь написать мне любой город в формате {Погода [город]} (Например: Погода Москва), и я отправлю тебе погодную информацию в этом городе.\r\n Также мне можно попробовать отправить стикер или просто пообщаться";
                 await telegramBotClient.SendTextMessageAsync(
                 message.Chat.Id,
@@ -115,6 +116,7 @@ namespace PugachBotTelegram
 
             if (message.Text.ToLower().Contains("погода"))
             {
+                mesType = "погода";
                 string city = message.Text.ToLower().Replace("погода", "").Trim();
                 string mes = OpenWeatherMap.GetTemperature(city);
                 await telegramBotClient.SendTextMessageAsync(
@@ -127,11 +129,21 @@ namespace PugachBotTelegram
             
             if (IsGreeting(message.Text, out string mesGreeting))
             {
+                mesType = "greet";
                 await telegramBotClient.SendTextMessageAsync(
                 message.Chat.Id,
                 mesGreeting
                 );
                 logger.Info($"Отправляем ответ {message.MessageId}: {mesGreeting} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
+            }
+
+            if(String.IsNullOrEmpty(mesType))
+            {
+                await telegramBotClient.SendTextMessageAsync(
+                message.Chat.Id,
+                "Не знаю что ответить"
+                );
+                logger.Info($"Отправляем ответ {message.MessageId}: {"Не знаю что ответить"} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
         }
 
