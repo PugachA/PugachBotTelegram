@@ -1,8 +1,8 @@
-﻿using MihaZupan;
+﻿using CryptographyLib;
+using MihaZupan;
 using NLog;
 using System;
-
-
+using System.Net;
 
 namespace PugachBotTelegram
 {
@@ -14,16 +14,12 @@ namespace PugachBotTelegram
         {
             try
             {
-                //Рабочий прокси можно найти на http://spys.one/proxys/DE/
-                var proxy = new HttpToSocks5Proxy("35.227.157.59", 1080);
+                string proxyPassword = Protector.Decrypt(Properties.Settings.Default.ProxyPassword);
+                HttpToSocks5Proxy proxy = new HttpToSocks5Proxy("196.18.12.170", 8000, "UWK8Gs", proxyPassword);
 
-                // Some proxies limit target connections to a single IP address
-                // If that is the case you have to resolve hostnames locally
-                proxy.ResolveHostnamesLocally = true;
-
-                PugachBotTelegram pugachBot = new PugachBotTelegram(Properties.Settings.Default.TelegramToken, proxy);
+                string teleglamToken = Protector.Decrypt(Properties.Settings.Default.TelegramToken);
+                PugachBotTelegram pugachBot = new PugachBotTelegram(teleglamToken, proxy);
                 pugachBot.RunBot();
-
 
                 ConsoleKeyInfo cki;
                 do
@@ -40,7 +36,6 @@ namespace PugachBotTelegram
                         Console.WriteLine("Текст введен в неверном формате. Необходим разделитель ':'. Ничего не отправляем");
                     }
 
-                    
                     cki = Console.ReadKey();
                 }
                 while (cki.Key != ConsoleKey.Escape);

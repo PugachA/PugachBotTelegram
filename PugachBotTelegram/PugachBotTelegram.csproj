@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="CryptographyLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\CryptographyLib.dll</HintPath>
+      <HintPath>..\..\..\C#\Lib\CryptographyLib\CryptographyLib\bin\Debug\netstandard2.0\CryptographyLib.dll</HintPath>
     </Reference>
     <Reference Include="MihaZupan.HttpToSocks5Proxy, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HttpToSocks5Proxy.1.1.2\lib\net45\MihaZupan.HttpToSocks5Proxy.dll</HintPath>
@@ -64,6 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Message\IMessageType.cs" />
+    <Compile Include="Message\StartType.cs" />
+    <Compile Include="Message\TextMessageType.cs" />
     <Compile Include="OpenWeatherMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

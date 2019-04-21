@@ -38,14 +38,25 @@ namespace PugachBotTelegram.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ix6LTEenYBc5oMPvBTz1kYdnXdsnBVdxiyg1IsFmJvAdEPDiMvDGQPr/rtXkf4Ms1RycM9pV8Lr2WHHdr" +
-            "gFAzlAZMGzRmjVaqX3kvi6k2AAkLbqeMT/AmNMNa57RG4SJ")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@" sLNifNtyZ0ibMd8A9jtIGY52b3sIAHF1TaD77n2ukuQHv1XOPhcaleyqLzscJBn/J3ZXAfgzxe9khUNuPmxU5z0XcydeF1Xzwq8UXg/ayQzGXwE+KNf6UEHD/oy3Mo12k7LTbM9ZFap8xjjiU3IV7mNXsZgJBVlyzZbzP4NNXq0vZ5svMc8DbHxmv0qbjVzO0d7r1UdYKEElYmSKcTc1AdIkjUsUgcTzktY7JD5Oz9LwdPXHNPN0prhtu0hYPoWegMvj5i1LdlMCGmaEWjLJQwYYJVYQqomNCYsrhDV28cwyP67KC+RAI5N7rLkeN9qB8dLIE0XWlp7jTWW6q1hz/NAaHPBuJ0m3iH/OqtYqr60=")]
         public string TelegramToken {
             get {
                 return ((string)(this["TelegramToken"]));
             }
             set {
                 this["TelegramToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KAeF9DHA1rFGyWgB5+mj8w==")]
+        public string ProxyPassword {
+            get {
+                return ((string)(this["ProxyPassword"]));
+            }
+            set {
+                this["ProxyPassword"] = value;
             }
         }
     }

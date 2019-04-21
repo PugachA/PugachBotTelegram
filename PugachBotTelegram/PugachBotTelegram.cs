@@ -36,11 +36,19 @@ namespace PugachBotTelegram
 
         public void RunBot()
         {
-            telegramBotClient.OnMessage += Bot_OnMessage;
-            telegramBotClient.StartReceiving();
-            me = telegramBotClient.GetMeAsync().Result;
-            logger.Info($"Запущен бот {me.Id} {me.FirstName}");
-            Console.WriteLine($"Запущен бот {me.Id} {me.FirstName}");
+            try
+            {
+                telegramBotClient.OnMessage += Bot_OnMessage;
+                telegramBotClient.StartReceiving();
+                me = telegramBotClient.GetMeAsync().Result;
+                logger.Info($"Запущен бот {me.Id} {me.FirstName}");
+                Console.WriteLine($"Запущен бот {me.Id} {me.FirstName}");
+            }
+            catch(Exception ex)
+            {
+                logger.Error($"Ошибка при запуске бота: {ex.Message}");
+                Console.WriteLine($"Ошибка при запуске бота {ex.Message}");
+            }
         }
 
         public void StopBot()
@@ -93,6 +101,8 @@ namespace PugachBotTelegram
             logger.Info($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
             Console.WriteLine($"{message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id},{message.MessageId}): {message.Text}");
 
+            string mesType = "";
+
             if (message.Text == "/start")
             {
                 string mes = "Привет. Это PugachBot.\r\n Ты можешь написать мне любой город в формате {Погода [город]} (Например: Погода Москва), и я отправлю тебе погодную информацию в этом городе.\r\n Также мне можно попробовать отправить стикер или просто пообщаться";
@@ -114,10 +124,9 @@ namespace PugachBotTelegram
                 logger.Info($"Отправляем ответ {message.MessageId}: {mes} - {message.Chat.FirstName} {message.Chat.LastName} ({message.Chat.Id})");
             }
 
-            string mesGreeting = "";
-            if (IsGreeting(message.Text, out mesGreeting))
+            
+            if (IsGreeting(message.Text, out string mesGreeting))
             {
-
                 await telegramBotClient.SendTextMessageAsync(
                 message.Chat.Id,
                 mesGreeting
@@ -139,7 +148,7 @@ namespace PugachBotTelegram
                     return flag;
                 }
             }
-            mes = "Нет ответа";
+            mes = "Хм, что бы ответить";
             return flag;
         }
 
