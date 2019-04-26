@@ -1,15 +1,16 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PugachBotTelegram
 {
-    internal class DefaultMessageHandler : IMessageHandler
+    public class DefaultMessageHandler : IMessageHandler
     {
-        private static Logger logger;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public DefaultMessageHandler(Message message, TelegramBotClient telegramBotClient)
         {
@@ -24,45 +25,54 @@ namespace PugachBotTelegram
 
         public TelegramBotClient BotClient { get; }
 
-        public async void AnswerAsync()
+        async Task IMessageHandler.AnswerAsync()
         {
-            switch (Type)
+            try
             {
-                case MessageType.Text:
-                    {
-                        ProcessingTextMessageAsync();
-                        break;
-                    }
-
-                case Telegram.Bot.Types.Enums.MessageType.Sticker:
-                    {
-                        logger.Info($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): Отправил стикер {Message.Sticker.SetName}");
-                        Console.WriteLine($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id}): Отправил стикер {Message.Sticker.SetName}");
-                        Message msg;
-                        using (var stream = System.IO.File.OpenRead(@"D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg"))
+                switch (Type)
+                {
+                    case MessageType.Text:
                         {
-                            msg = await BotClient.SendPhotoAsync(
-                              chatId: Message.Chat,
-                              photo: stream
-                            );
-                            logger.Info($@"Отправляем фото {Message.MessageId}: D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg - {Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id})");
+                            await ProcessingTextMessageAsync();
+                            break;
                         }
 
-                        break;
-                    }
+                    case Telegram.Bot.Types.Enums.MessageType.Sticker:
+                        {
+                            logger.Info($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): Отправил стикер {Message.Sticker.SetName}");
+                            Console.WriteLine($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id}): Отправил стикер {Message.Sticker.SetName}");
+                            Message msg;
+                            using (var stream = System.IO.File.OpenRead(@"D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg"))
+                            {
+                                msg = await BotClient.SendPhotoAsync(
+                                  chatId: Message.Chat,
+                                  photo: stream
+                                );
+                                logger.Info($@"Отправляем фото {Message.MessageId}: D:\C#\Skillbox\SkillBoxDays\Day022_SkillBox\Foto\CrXpXRnLVEc.jpg - {Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id})");
+                            }
 
-                default:
-                    {
-                        logger.Info($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): {Message.Text}");
-                        Console.WriteLine($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id}): {Message.Text}");
-                        await BotClient.SendTextMessageAsync(Message.Chat.Id, "Я не в курсе");
-                        logger.Info($"Отправляем ответ {Message.MessageId}: {Message.Text} - {Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id})");
-                        break;
-                    }
+                            break;
+                        }
+
+                    default:
+                        {
+                            logger.Info($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): {Message.Text}");
+                            Console.WriteLine($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id}): {Message.Text}");
+                            await BotClient.SendTextMessageAsync(Message.Chat.Id, "Я не в курсе");
+                            logger.Info($"Отправляем ответ {Message.MessageId}: {Message.Text} - {Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id})");
+                            break;
+                        }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                await BotClient.SendTextMessageAsync(Message.Chat.Id, "Не знаю что ответить");
+                logger.Error(ex.Message);
             }
         }
 
-        private async void ProcessingTextMessageAsync()
+        private async Task ProcessingTextMessageAsync()
         {
             logger.Info($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): {Message.Text}");
             Console.WriteLine($"{Message.Chat.FirstName} {Message.Chat.LastName} ({Message.Chat.Id},{Message.MessageId}): {Message.Text}");

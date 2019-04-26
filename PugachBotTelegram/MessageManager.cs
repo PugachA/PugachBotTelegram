@@ -17,7 +17,7 @@ namespace PugachBotTelegram
             this.telegramBotClient = telegramBotClient;
         }
 
-        public void Process(Message message)
+        public async Task Process(Message message)
         {
             IMessageHandler messageHandler;
 
@@ -27,7 +27,7 @@ namespace PugachBotTelegram
             }
             else messageHandler = new DefaultMessageHandler(message, telegramBotClient);
 
-            messageHandler.AnswerAsync();
+            await messageHandler.AnswerAsync();
         }
     }
 }

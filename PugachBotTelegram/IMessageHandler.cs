@@ -14,6 +14,6 @@ namespace PugachBotTelegram
         Message Message { get;}
         MessageType Type { get; }
         TelegramBotClient BotClient { get; } 
-        void AnswerAsync();
+        Task AnswerAsync();
     }
 }

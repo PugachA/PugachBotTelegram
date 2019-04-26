@@ -1,10 +1,11 @@
-﻿using Telegram.Bot;
+﻿using System.Threading.Tasks;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace PugachBotTelegram
 {
-    internal class KateMessageHandler : IMessageHandler
+    public class KateMessageHandler : IMessageHandler
     {
         private Message message;
         private TelegramBotClient telegramBotClient;
@@ -21,7 +22,7 @@ namespace PugachBotTelegram
 
         public TelegramBotClient BotClient => throw new System.NotImplementedException();
 
-        public void AnswerAsync()
+        public Task AnswerAsync()
         {
             throw new System.NotImplementedException();
         }
