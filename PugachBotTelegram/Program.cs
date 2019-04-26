@@ -43,7 +43,9 @@ namespace PugachBotTelegram
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 logger.Error(ex.Message);
+                Console.ReadKey();
             }
         }
     }

@@ -16,7 +16,7 @@ namespace PugachBotTelegram
     class PugachBotTelegram
     {
         private readonly string token;
-        private static Logger logger;
+        private static Logger logger= LogManager.GetCurrentClassLogger();
 
         public HttpToSocks5Proxy proxy;
         /// <summary>
@@ -30,7 +30,6 @@ namespace PugachBotTelegram
             this.token = Protector.Decrypt(encryptToken);
             this.proxy = proxy;
             telegramBotClient = new TelegramBotClient(token, proxy);
-            logger = LogManager.GetCurrentClassLogger();
             logger.Info("Создаем TelegramBotClient");
         }
 

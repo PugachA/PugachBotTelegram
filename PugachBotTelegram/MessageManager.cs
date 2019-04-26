@@ -19,18 +19,15 @@ namespace PugachBotTelegram
 
         public void Process(Message message)
         {
-            MessageHandler messageHandler;
+            IMessageHandler messageHandler;
 
-            if (message.Chat.Id == kateID)
+            if (message.Chat.Id == Properties.Settings.Default.kateId)
             {
                 messageHandler = new KateMessageHandler(message, telegramBotClient);
             }
             else messageHandler = new DefaultMessageHandler(message, telegramBotClient);
 
-            messageHandler.Answer();
-
-
-
+            messageHandler.AnswerAsync();
         }
     }
 }

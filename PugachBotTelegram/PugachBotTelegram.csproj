@@ -65,8 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultMessageHandler.cs" />
+    <Compile Include="IMessageHandler.cs" />
     <Compile Include="KateMessageHandler.cs" />
-    <Compile Include="MessageHandler.cs" />
     <Compile Include="MessageManager.cs" />
     <Compile Include="OpenWeatherMap.cs" />
     <Compile Include="Program.cs" />
