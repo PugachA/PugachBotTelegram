@@ -64,10 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultMessageHandler.cs" />
-    <Compile Include="IMessageHandler.cs" />
-    <Compile Include="KateMessageHandler.cs" />
-    <Compile Include="MessageManager.cs" />
+    <Compile Include="Handlers\DefaultMessageHandler.cs" />
+    <Compile Include="Handlers\IMessageHandler.cs" />
+    <Compile Include="Handlers\KateMessageHandler.cs" />
+    <Compile Include="Handlers\MessageManager.cs" />
     <Compile Include="OpenWeatherMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
