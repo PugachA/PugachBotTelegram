@@ -12,7 +12,7 @@ namespace PugachBotTelegram.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,7 +23,7 @@ namespace PugachBotTelegram.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("KItyaSx1Cl4gZBh9+07AkarRbkttq16EfNNYgSLBGlNTYht+L9wHbzDH7EGqOCzkUNi9xqGcLZAWgIb8i" +
             "xjraFkOLpAJiJUPeM+zpqHrJUY=")]
@@ -31,32 +31,32 @@ namespace PugachBotTelegram.Properties {
             get {
                 return ((string)(this["OpenweathermapAppId"]));
             }
-            set {
-                this["OpenweathermapAppId"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@" sLNifNtyZ0ibMd8A9jtIGY52b3sIAHF1TaD77n2ukuQHv1XOPhcaleyqLzscJBn/J3ZXAfgzxe9khUNuPmxU5z0XcydeF1Xzwq8UXg/ayQzGXwE+KNf6UEHD/oy3Mo12k7LTbM9ZFap8xjjiU3IV7mNXsZgJBVlyzZbzP4NNXq0vZ5svMc8DbHxmv0qbjVzO0d7r1UdYKEElYmSKcTc1AdIkjUsUgcTzktY7JD5Oz9LwdPXHNPN0prhtu0hYPoWegMvj5i1LdlMCGmaEWjLJQwYYJVYQqomNCYsrhDV28cwyP67KC+RAI5N7rLkeN9qB8dLIE0XWlp7jTWW6q1hz/NAaHPBuJ0m3iH/OqtYqr60=")]
         public string TelegramToken {
             get {
                 return ((string)(this["TelegramToken"]));
             }
-            set {
-                this["TelegramToken"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("KAeF9DHA1rFGyWgB5+mj8w==")]
         public string ProxyPassword {
             get {
                 return ((string)(this["ProxyPassword"]));
             }
-            set {
-                this["ProxyPassword"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int kateId {
+            get {
+                return ((int)(this["kateId"]));
             }
         }
     }

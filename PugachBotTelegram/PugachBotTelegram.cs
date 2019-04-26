@@ -47,7 +47,8 @@ namespace PugachBotTelegram
             catch(Exception ex)
             {
                 logger.Error($"Ошибка при запуске бота: {ex.Message}");
-                Console.WriteLine($"Ошибка при запуске бота {ex.Message}");
+                throw new Exception($"Ошибка при запуске бота {ex.Message}");
+                //Console.WriteLine($"Ошибка при запуске бота {ex.Message}");
             }
         }
 
